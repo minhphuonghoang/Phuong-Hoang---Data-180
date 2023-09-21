@@ -1,5 +1,5 @@
 ---
-title: "HW 1"
+title: "HW 1" 
 subtitle: "Data 180, Professor Kennedy"
 author: "Phuong Hoang"
   name: "Phuong Hoang"
@@ -44,7 +44,10 @@ print(my_df)
 | Harry | Instagram |
 
 b) What are the dimensions of `my_df`?
-The dimensions of 'my_df' are the rows and the columns. The rows show the person's name and his/her corresponding preference of social media. The colum on the left lists all the names and the colum on the right lists all the social media platforms.
+```{r}
+dim(my_df) #Function to show the dimensions of a data frame
+```
+The dimensions of 'my_df' are the rows and the columns. There are 8 rows showing the person's name and his/her corresponding preference of social media. There are 2 columns in total: the column on the left lists all the names and the column on the right lists all the social media platforms.
 
 c) Write R code that counts the total number of users.
 ```{r}
@@ -54,13 +57,15 @@ print(length(usersNumbers)) #Showing the length of a column
 
 d) Write R code that counts the total number of users who prefer Twitter.
 ```{r}
-print(table(my_df$Preference))
+print(table(my_df$Preference)) #Showing how many users who prefer each platform
+nrow(my_df[my_df$Preference=="Twitter",]) #Showing how many users who actually prefer Twitter
 ```
 
 
 e) Write R code that returns what Gisele prefers.
 ```{r}
-print(table(my_df$Preference,my_df$Person))
+print(table(my_df$Preference,my_df$Person=="Gisele")) #Showing what each person prefer
+my_df[my_df$Person=="Gisele",] #Showing what Gisele prefer
 ```
 
 ## Task 2
@@ -105,7 +110,7 @@ get_fibonacci<-function(n){
     return (get_fibonacci(n-1) + get_fibonacci(n-2))
   }
 }
-get_fibonacci(1)
+get_fibonacci(2) #Testing line
 
 ```
 
