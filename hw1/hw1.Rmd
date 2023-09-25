@@ -8,6 +8,8 @@ date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output: 
   html_document
 ---
+Good job Phuong. 20/20. Well done. 
+
 Make sure that you have accepted the hw invitation link, and working with your clone repository.
 
 **Due date:** September 21 beginning of class.
@@ -117,7 +119,7 @@ get_fibonacci(2) #Testing line
 b. Using your function in part (a), find and return the 19th value in the fibonacci sequence.
 
 ```{r}
-get_fibonacci(3)
+get_fibonacci(19)
 ```
 
 <br>
