@@ -8,7 +8,7 @@ date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output: 
   html_document
 ---
-
+20/20. good job. 
 **Due date:** November 2 beginning of class.
 
 # Question 1
@@ -235,24 +235,26 @@ In your dendrograms:
 Bonus: (not required) generate the same dendrogram using the `ggdendro` package.
 
 ```{r}
-# Load the required libraries
-library(ggdendro)
-
-# Create the distance matrix without text columns
-Ver_Euclidean <- as.matrix(dist(vertebrate[, -1]))
-
-# Add row and column names to the matrix from the vertebrate dataframe
-rownames(Ver_Euclidean) <- vertebrate[, 1]
-colnames(Ver_Euclidean) <- vertebrate[, 1]
-
-# Apply `dist()` once again before feeding the matrix into `hclust()` function
-Ver_Euclidean <- dist(Ver_Euclidean)
-
-# Perform hierarchical clustering with complete linkage using the Euclidean distance
-hc_euclidean <- hclust(Ver_Euclidean, method = "complete")
-
-#Plot the dendrogram
-ggdendrogram(hc_euclidean) + labs(title = 'Clustered vertebrates, Euclidean Metric, \n Complete Linkage', x = "Height", y = 'Vertebrate')
+# # Load the required libraries
+# library(ggdendro)
+# 
+# # Create the distance matrix without text columns
+# Ver_Euclidean <- as.matrix(dist(vertebrate[, -1]))
+# 
+# # Add row and column names to the matrix from the vertebrate dataframe
+# rownames(Ver_Euclidean) <- vertebrate[, 1]
+# colnames(Ver_Euclidean) <- vertebrate[, 1]
+# 
+# # Apply `dist()` once again before feeding the matrix into `hclust()` function
+# Ver_Euclidean <- dist(Ver_Euclidean)
+# 
+# # Perform hierarchical clustering with complete linkage using the Euclidean distance
+# hc_euclidean <- hclust(Ver_Euclidean, method = "complete")
+# 
+# #Plot the dendrogram
+# ggdendrogram(hc_euclidean) + labs(title = 'Clustered vertebrates, Euclidean Metric, \n Complete Linkage', x = "Height", y = 'Vertebrate')
+# 
+# # Your code is breaking here. 
 
 
 
