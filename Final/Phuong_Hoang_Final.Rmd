@@ -1,0 +1,219 @@
+---
+title: "Phuong Hoang's Final"
+author: "Phuong Hoang"
+email : "hoangm@dickinson.edu"
+date: "2023-12-06"
+output: html_document
+---
+```{r}
+file <- read.csv('~/Desktop/Data 180 Phuong Hoang/Phuong-Hoang---Data-180/Final/loan_default_data_set.csv')
+```
+1.	Data wrangling:
+a.	What is the dimension (shape) of the dataset?  How many rows and columns does the data set have?
+```{r}
+nrow(file)
+ncol(file)
+```
+The dataset has 20,000 rows and 21 columns
+#*********************************
+b.	Report the column names of the data set.
+```{r}
+colnames(file)
+```
+The column names of the data set can be demonstrated after running colnames ().
+#*********************************
+c.	Which types of data are there in the dataset? Numeric, categorical, ordinal?
+```{r}
+str(file)
+```
+The types of data in the dataset are number (numeric),integer (numeric), and character (ordinal for "rep_education"). The str() summarizes the type of data for each column.
+#*********************************
+d.	Which columns contain missing values and how much (what percent) of those columns are missing?
+```{r}
+# Check for missing values in columns and calculate percentage
+missing_cols <- colSums(is.na(file)) > 0
+cols_with_missing <- names(missing_cols[missing_cols])
+missing_percentage <- colSums(is.na(file[cols_with_missing])) / nrow(file) * 100
+
+# Display columns with missing values and their respective percentages
+missing_info <- data.frame(Column = cols_with_missing, MissingPercentage = missing_percentage)
+print(missing_info)
+```
+- The 2 columns contain missing values (and the percent of the missing values) are "pct_card_over_50_uti" (9.790%) and "rep_income" (7.795%)
+#*********************************
+e.	How do you think we should deal with missing values? 
+Depending on the goal of the data analysis, there are many ways to deal with missing values. Below are two examples:
+
+- Remove Missing Data: If the missing values are few and randomly distributed, we can remove rows or columns with missing values. This method will help compact the dataset and make it easier to collect meaningful output. However, this approach should be used cautiously, as it can lead to loss of valuable information.
+
+- Imputation: Fill in missing values with estimated ones. This can be done using various techniques:
+    + Mean/Median/Mode Imputation: Fill missing values with the mean, median, or mode of the observed data in that column.
+    + Forward/Backward Fill: Use the last known value to fill missing values (backward fill) or the next known value (forward fill).
+    + Machine Learning-based Imputation: Use algorithms (like K-Nearest Neighbors, decision trees, or regression models) to predict missing values based on other variables.
+#*********************************
+
+f.	With this data, would you fit a supervised or an unsupervised learning model? Why? 
+- With this data, I will consider it supervised learning: In supervised learning, the algorithm learns from labeled training data, where the input data is paired with the correct output. The goal is to learn a mapping from inputs to outputs so that, given new or unseen input data, the model can predict or CLASSIFY the correct output. 
+
+- Specifically, this data is performing classification: Assigning inputs to discrete categories, such as classifying if the data is in one category or the other. According to the prompt, "financial institutions that lend to consumers rely on models to help decide on who to approve or decline for credit (for lending products such as credit cards, automobile loans, or home loans)." Therefore, all the data in this data set is used to classify if a person's credit can be approved or declined. (Classification in Supervised Learning) 
+#*********************************
+
+g.	For part 2 and 3 drop all rows of the data that contain missing values. Print the dimensions of the resulting data set that has no missing values.
+```{r}
+new_file <- na.omit(file)
+new_file
+nrow(new_file)
+ncol(new_file)
+```
+The dataset now has 16653 rows and 21 columns.
+#*********************************
+2.	Data summary statistics:
+a.	Find the summary statistics of the data set. You can use the summary function from dplyr.
+```{r}
+summary(new_file)
+```
+#*********************************
+b.	Based on the mean, mode, and median, is “num_card_inq_24_month” bell shaped, left, right skewed? How about “tot_amount_currently_past_due”? “credit_age”? 
+```{r}
+# Calculate mean
+mean_num_card_inq <- mean(new_file$num_card_inq_24_month, na.rm = TRUE)
+
+# Calculate mode (custom function)
+mode_function <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+mode_num_card_inq <- mode_function(new_file$num_card_inq_24_month)
+
+# Calculate median
+median_num_card_inq <- median(new_file$num_card_inq_24_month, na.rm = TRUE)
+
+# Print mean, mode, and median for num_card_inq_24_month
+print(paste("Mean for num_card_inq_24_month:", mean_num_card_inq))
+print(paste("Mode for num_card_inq_24_month:", mode_num_card_inq))
+print(paste("Median for num_card_inq_24_month:", median_num_card_inq))
+print("num_card_inq_24_month has a right skewed shape")
+print("***********")
+#######################
+# Calculate mean
+mean_tot_amount_past_due <- mean(new_file$tot_amount_currently_past_due, na.rm = TRUE)
+
+# Calculate mode (custom function)
+mode_function <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+mode_tot_amount_past_due <- mode_function(new_file$tot_amount_currently_past_due)
+
+# Calculate median
+median_tot_amount_past_due <- median(new_file$tot_amount_currently_past_due, na.rm = TRUE)
+
+# Print mean, mode, and median for tot_amount_currently_past_due
+print(paste("Mean for tot_amount_currently_past_due:", mean_tot_amount_past_due))
+print(paste("Mode for tot_amount_currently_past_due:", mode_tot_amount_past_due))
+print(paste("Median for tot_amount_currently_past_due:", median_tot_amount_past_due))
+print("tot_amount_currently_past_due has a right skewed shape")
+print("***********")
+#######################
+# Calculate mean
+mean_credit_age <- mean(new_file$credit_age, na.rm = TRUE)
+
+# Calculate mode (custom function)
+mode_function <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+mode_credit_age <- mode_function(new_file$credit_age)
+
+# Calculate median
+median_credit_age <- median(new_file$credit_age, na.rm = TRUE)
+
+# Print mean, mode, and median for credit_age
+print(paste("Mean for credit_age:", mean_credit_age))
+print(paste("Mode for credit_age:", mode_credit_age))
+print(paste("Median for credit_age:", median_credit_age))
+print("credit_age has a left skewed shape")
+```
+
+- It is very obivious that "num_card_inq_24_month" and "tot_amount_currently_past_due" has a right skewed shape because their means is greater than their medians.
+- For "credit_age", its mean (280.9) is slightly smaller than its median (281.0). So technically, "credit_age" has a left skewed shape. However, I think that because the difference is so small, when we plot a histogram for "credit_age", it will visually look like it has a bell shaped curve.
+#*********************************
+c.	Plot a histogram of the variables in b above. Do the shapes of the histograms confirm the skewness you found in b?
+```{r}
+# Plot histograms for each variable
+hist(new_file$num_card_inq_24_month, main = "Number of credit card inquiries in the last 24 months", xlab = "Credit card inquiries",col = "purple",ylim = c(0,15000))
+hist(new_file$tot_amount_currently_past_due, main = "Total amount past due currently for all credit accounts", xlab = "Credit accounts past due",col = "lightblue", ylim = c(0,20000))
+hist(new_file$credit_age, main = "Age in months of first credit product obtained by the applicant", xlab = "Age in months",col = "lightpink", ylim = c(0,5000))
+```
+The shapes of the histograms are consistent with what I found in part b.
+#*********************************
+d.	How would your convert the “rep_education” column into numerical data? Name two ways. 
+The 2 ways I can use to convert the “rep_education” column into numerical data are:
+
+- Categorical Encoding with Numeric Mapping: This method assigns a unique number to each category. For instance, you might assign "high school" as 1, "college" as 2, and "graduate" as 3. This conversion allows numerical representation while preserving the categorical information.
+
+- One-Hot Encoding or Dummy Variables: Generating binary columns representing each category (e.g., "is_high_school", "is_college", "is_graduate") with 1s and 0s to indicate presence or absence of each category.
+#*********************************   
+3.	Data Visualization:
+For every graph in this section, remember to label your axes and to include a title. Feel free to play around with graphics and parameters. Have fun and explore!
+a.	Plot a bar graph for the “Def_ind” column and describe it. 
+```{r}
+# Creating a vector of colors 
+my_colors <- c("skyblue", "salmon")
+# Plotting a bar graph for Def_Ind column
+barplot(table(new_file$Def_ind), main = "Indicator of Default Distribution",sub = "Default means no payments for 3 consecutive months & After an account was approved and opened with bank XYZ in the past 18 months", xlab = "Indicator of default (0 = not defaulted, 1 = defaulted)", ylab = "Frequency", col = my_colors, cex.sub = 0.6, ylim = c(0,20000))
+```
+The graph illustrates the distribution between defaulted accounts and not defaulted accounts. From the graph, I can see that the number of not defaulted accounts far outweighs (nearly 7-8 times higher) the number of defaulted accounts.
+#*********************************
+b.	Plot a bar graph for the “rep_education" column and describe it. 
+```{r}
+# (table for categorical)
+my_colors2 <- c("skyblue", "salmon","lightpink","purple")
+# Plotting a bar graph for rep_education column
+barplot(table(new_file$rep_education), main = "Education Levels Distribution (Reported by Applicants)", xlab = "Education Level", ylab = "Frequency",col = my_colors2,ylim = c(0,12000))
+```
+The graph illustrates the education levels distribution with 4 levels: graduate, college, high school, and other degrees. From the graph, I can see that the majority of applicants have a degree from college. The second biggest group is people who have a high school degree. The group with graduate school's degree comes third and the last group is the ones with other degrees.
+#*********************************
+c.	Plot a histogram of the “rep_income” variable.
+```{r}
+library(ggplot2)
+# Filtering out missing values from the 'rep_income' column
+income_without_na <- na.omit(file$rep_income)
+
+# Creating a histogram using ggplot with non-missing values only
+ggplot(data.frame(rep_income = income_without_na), aes(x = rep_income)) +
+  geom_histogram(fill = 'lightpink', color = 'black', bins = 30) +  # Adjust bins as needed
+  labs(title = 'Annual Income Reported By Applicants (Excluding Missing Values)', x = 'Annual Income', y = 'Frequency')
+```
+#*********************************
+d.	Plot a boxplot of the “tot_balance” variable. Using the box plot report the five number summary of the variable? Are there any outliers for this variable? 
+```{r}
+# (table for categorical)
+# Plotting a boxplot for tot_balance variable
+boxplot(new_file$tot_balance, main = "Total Available Balance For All Credit Products", ylab = "Total Available Balance",col = 'pink')
+
+# Calculate the five-number summary using quantile function
+
+quantile(new_file$tot_balance, probs = c(0, 0.25, 0.5, 0.75, 1))
+
+#You can also calculate the upper and lower bounds using IQR method
+Q1 <- quantile(new_file$tot_balance, 0.25)
+Q3 <- quantile(new_file$tot_balance, 0.75)
+IQR_value <- Q3 - Q1
+
+lower_bound <- Q1 - 1.5 * IQR_value
+upper_bound <- Q3 + 1.5 * IQR_value
+
+# # Display potential outliers
+outliers <- new_file$tot_balance[new_file$tot_balance < lower_bound | new_file$tot_balance > upper_bound]
+outliers
+
+```
+- The five number summaries of the variable are:
+  + Minimum value:0.00 
+  + Lower quartile (Q1):92212.56
+  + Median value (Q2) :107711.03
+  + Upper quartile (Q3):122751.43
+  + Maximum value: 200000.00 
+- Yes, there are many potential outliers for this variable. Some of them are: 37213.81, 176118.32, 175548.20, 174991.23,  45908.84, 172021.49, 188251.04, 40286.16, 177612.90, 30917.23
+
