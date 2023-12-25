@@ -10,12 +10,13 @@ output:
 editor_options: 
   chunk_output_type: console
 ---
+20/20. Good job Hoang. 
 
 **Due date:** December 4 beginning of class.
 
 
 ```{r echo=FALSE}
-setwd("/Users/phuong/Desktop/Data 180 Phuong Hoang/Phuong-Hoang---Data-180/hw7")
+#setwd("/Users/phuong/Desktop/Data 180 Phuong Hoang/Phuong-Hoang---Data-180/hw7")
 # Custom options for knitting
 knitr::opts_chunk$set(
   message = FALSE,
@@ -156,7 +157,7 @@ Let's now practice working with `quanteda` and `corpus` packages. Install the pa
 
 ```{r}
 library("quanteda")
-library('corpus')
+#library('corpus')
 ```
 
 # Question 10
