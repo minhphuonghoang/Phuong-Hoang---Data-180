@@ -4,9 +4,11 @@ author: "Phuong Hoang"
 email : "hoangm@dickinson.edu"
 date: "2023-12-06"
 output: html_document
+
+40/40. Good job. 
 ---
 ```{r}
-file <- read.csv('~/Desktop/Data 180 Phuong Hoang/Phuong-Hoang---Data-180/Final/loan_default_data_set.csv')
+file <- read.csv('loan_default_data_set.csv')
 ```
 1.	Data wrangling:
 a.	What is the dimension (shape) of the dataset?  How many rows and columns does the data set have?
